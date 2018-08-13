@@ -1,9 +1,9 @@
 package com.iespinosa.userFront.service;
 
+import java.security.Principal;
 import java.util.List;
 
-import com.iespinosa.userFront.domain.PrimaryTransaction;
-import com.iespinosa.userFront.domain.SavingsTransaction;
+import com.iespinosa.userFront.domain.*;
 
 public interface TransactionService {
 	
@@ -13,5 +13,9 @@ public interface TransactionService {
 	void saveSavingsDepositTransaction(SavingsTransaction savingsTransaction);
 	void savePrimaryWithdrawTransaction(PrimaryTransaction primaryTransaction);
 	void saveSavingsWithdrawTransaction(SavingsTransaction savingsTransaction);
-
+    void betweenAccountsTransfer(String transferFrom, String transferTo, String amount, PrimaryAccount primaryAccount, SavingsAccount savingsAccount) throws Exception;
+    List<Recipient> findRecipientList(Principal principal);
+	void saveRecipient(Recipient recipient);
+	Recipient findRecipientByName(String recipientName);
+	void deleteRecipientByName(String recipientName);
 }
