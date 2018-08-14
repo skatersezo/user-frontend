@@ -4,15 +4,13 @@ import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import com.iespinosa.userFront.dao.PrimaryAccountDao;
-import com.iespinosa.userFront.dao.SavingsAccountDao;
+import com.iespinosa.userFront.dao.*;
 import com.iespinosa.userFront.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.iespinosa.userFront.dao.PrimaryTransactionDao;
-import com.iespinosa.userFront.dao.SavingsTransactionDao;
 import com.iespinosa.userFront.service.TransactionService;
 import com.iespinosa.userFront.service.UserService;
 
@@ -33,6 +31,9 @@ public class TransactionServiceImpl implements TransactionService {
 
 	@Autowired
 	private SavingsAccountDao savingsAccountDao;
+
+	@Autowired
+	private RecipientDao recipientDao;
 	 
 	public List<PrimaryTransaction> findPrimaryTransactionList(String username) {
 		User user = userService.findByUsername(username);
@@ -119,17 +120,18 @@ public class TransactionServiceImpl implements TransactionService {
 	@Override
 	public List<Recipient> findRecipientList(Principal principal) {
 		String username = principal.getName();
-		List<Recipient> recipientList = recipientDao.findAll().stream()
-				.filter(recipient -> username.equals(recipient.getUser().getUsername()))
-				.collect(collectors.toList());
+		// Because we are retrieving all the records, when the DB will grow it will become slower
+		// I should filter the SQL statement and get only the ones I want
+		List<Recipient> recipientList = recipientDao.findAll().stream() // convert all the list to stream
+				.filter(recipient -> username.equals(recipient.getUser().getUsername())) // filters the line
+				.collect(Collectors.toList()); // after all we collect and get a list of recipients that is bind to the user
 
 		return recipientList;
 	}
 
 	@Override
-	public void saveRecipient(Recipient recipient) {
+	public Recipient saveRecipient(Recipient recipient) {
 		return recipientDao.save(recipient);
-
 	}
 
 	@Override
