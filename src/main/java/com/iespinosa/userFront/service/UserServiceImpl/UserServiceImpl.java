@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private AccountService accountService;
 	
-	public void save(User user) {
+	public void saveUser(User user) {
 		userDao.save(user);
 	}
 	

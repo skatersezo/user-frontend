@@ -35,6 +35,10 @@ public class AccountServiceImpl implements AccountService {
 	
 	@Autowired
 	private TransactionService transactionService;
+
+	private int accountGen() {
+		return ++nextAccountNumber;
+	}
 	
 	public PrimaryAccount createPrimaryAccount() {
 		PrimaryAccount primaryAccount = new PrimaryAccount();
@@ -91,10 +95,6 @@ public class AccountServiceImpl implements AccountService {
 					savingsAccount);
 			transactionService.saveSavingsDepositTransaction(savingsTransaction);
 		}
-	}
-
-	private int accountGen() {
-		return ++nextAccountNumber;
 	}
 
 	@Override
