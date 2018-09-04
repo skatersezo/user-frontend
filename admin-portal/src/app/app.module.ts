@@ -4,9 +4,9 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import {FormsModule} from "@angular/forms";
-import {HttpModule} from "@angular/http";
 import { LoginComponent } from './login/login.component';
 import {LoginService} from "./login.service";
+import {HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -17,7 +17,7 @@ import {LoginService} from "./login.service";
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule
+    HttpClientModule
   ],
   providers: [
     LoginService

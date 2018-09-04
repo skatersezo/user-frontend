@@ -1,20 +1,33 @@
 import { Injectable } from '@angular/core';
-import {Http, Headers} from "@angular/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {Observable} from "rxjs/index";
 
 @Injectable()
 export class LoginService {
 
-  constructor(private http: Http) { }
+  constructor(private http: HttpClient) { }
 
-  sendCredential(username: string, password: string) {
+  /**
+   * DEFINIR RETORNO DE TIPO PARA AMBOS METODOS:
+   *  Observable<tipo?>
+   */
+
+  sendCredential(username: string, password: string): Observable<any> {
     const url = 'http:/localhost:8080/index';
     const params = `username=${username}&password=${password}`;
-    const headers = new Headers({
-      'Content-Type': 'application/x-www-form-urlencoded'
-      // 'Access-Control-Allow-Credentials' : true
-    });
-    return this.http.post(url, params, { headers: headers, withCredentials: true });
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/x-www-form-urlencoded',
+        'Access-Control-Allow-Credentials' : 'true'
+      })
+    };
+    return this.http.post(url, params, httpOptions);
   }
+
+  /**
+   * DEFINIR RETORNO DE TIPO PARA AMBOS METODOS:
+   *  Observable<tipo?>
+   */
 
   logout() {
     const url = 'http://localhost:8080/logout';

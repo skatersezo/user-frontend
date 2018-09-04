@@ -12,4 +12,12 @@ export class NavbarComponent implements OnInit {
   ngOnInit() {
   }
 
+  getDisplay() {
+
+  }
+
+  logout() {
+
+  }
+
 }
