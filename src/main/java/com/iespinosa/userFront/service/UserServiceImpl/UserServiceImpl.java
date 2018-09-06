@@ -1,5 +1,6 @@
 package com.iespinosa.userFront.service.UserServiceImpl;
 
+import java.util.List;
 import java.util.Set;
 
 import javax.transaction.Transactional;
@@ -38,8 +39,23 @@ public class UserServiceImpl implements UserService {
 	public void saveUser(User user) {
 		userDao.save(user);
 	}
-	
-	
+
+	@Override
+	public void enableUser(String username) {
+		User user = findByUsername(username);
+		user.setEnabled(true);
+		System.out.println("User " + user.getUsername() + " is enabled.");
+		userDao.save(user);
+	}
+
+	@Override
+	public void disableUser(String username) {
+		User user = findByUsername(username);
+		user.setEnabled(false);
+		System.out.println("User " + user.getUsername() + " is disabled.");
+		userDao.save(user);
+	}
+
 	public User findByUsername(String username) {
 		return userDao.findByUsername(username);
 	}
@@ -47,8 +63,13 @@ public class UserServiceImpl implements UserService {
 	public User findByEmail(String email) {
 		return userDao.findByEmail(email);
 	}
-	
-	@Transactional
+
+	@Override
+	public List<User> findUserList() {
+
+		return userDao.findAll();
+	}
+
 	public User createUser(User user, Set<UserRole> userRoles) {
 		User localUser = userDao.findByUsername(user.getUsername());
 		
